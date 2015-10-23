@@ -24,6 +24,20 @@ get '/' do
   erb 'Can you handle a <a href="/secure/place">secret</a>?'
 end
 
+get '/about' do
+  erb :about
+end
+
+get '/visit' do
+  erb :visit
+end
+
+get '/contacts' do
+  erb :contacts
+end
+
+
+
 get '/login/form' do
   erb :login_form
 end
