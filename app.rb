@@ -36,8 +36,6 @@ get '/contacts' do
   erb :contacts
 end
 
-
-
 get '/login/form' do
   erb :login_form
 end
