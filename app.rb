@@ -32,6 +32,19 @@ get '/visit' do
   erb :visit
 end
 
+post '/visit' do
+  session[:username] = params['username']
+  session[:phone] = params['phone']
+  session[:datetime] = params['datetime']
+  session[:barber] = params['barber']
+
+  f = File.open './public/users.txt', 'a'
+  f.write "username: #{session[:username]}, phone: #{session[:phone]}, datetime: #{session[:datetime]}, barber: #{session[:barber]}\n"
+  f.close
+
+  erb 'Дорогой <%=session[:username]%>, ваша заявка принята на рассмотрение. Парикмахер <%=session[:barber]%> вам перезвонит!'
+end
+
 get '/contacts' do
   erb :contacts
 end
