@@ -37,9 +37,10 @@ post '/visit' do
   session[:phone] = params['phone']
   session[:datetime] = params['datetime']
   session[:barber] = params['barber']
+  session[:color] = params['color']
 
   f = File.open './public/users.txt', 'a'
-  f.write "username: #{session[:username]}, phone: #{session[:phone]}, datetime: #{session[:datetime]}, barber: #{session[:barber]}\n"
+  f.write "username: #{session[:username]}, phone: #{session[:phone]}, datetime: #{session[:datetime]}, barber: #{session[:barber]}, color: #{session[:color]}\n"
   f.close
 
   erb 'Дорогой <%=session[:username]%>, ваша заявка принята на рассмотрение. Парикмахер <%=session[:barber]%> вам перезвонит!'
