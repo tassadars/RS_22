@@ -49,6 +49,18 @@ get '/contacts' do
   erb :contacts
 end
 
+post '/contacts' do
+  session[:email] = params['email']
+  session[:message] = params['message']
+
+  f = File.open './public/messages.txt', 'a'
+  f.write "email: #{session[:email]}, message: #{session[:message]}\n"
+  f.close
+
+  erb 'Дорогой <%=session[:username]%>, вашe сообщение принято. Мы вам ответим в близжайшее время!'
+end
+
+
 get '/login/form' do
   erb :login_form
 end
