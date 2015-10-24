@@ -16,7 +16,7 @@
 
   <div class="form-group">
     <label>Когда вас ждать?</label>
-    <input name="datetime" type="text" class="form-control" placeholder="Введите дату и время">
+    <input id="aaa" name="datetime" type="text" class="form-control" placeholder="Введите дату и время">
   </div>
 
  <div class="form-group">
@@ -31,3 +31,12 @@
   <button type="submit" class="btn btn-primary">Оставить заявку</button>
 
 </form> 
+
+
+<script type="text/javascript">	
+	// one element
+	$('#aaa').css('background-color', 'yellow');
+
+	//few elements
+	//$('.form-control').css('background-color', 'green');
+</script>
