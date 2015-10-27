@@ -45,13 +45,9 @@ post '/visit' do
           :phone => 'Enter phone',
           :datetime => 'Enter datetime'}
 
-  #for each pair key-value
-  hh.each do |key, value|
-    if params[key] == ''
-      # variable not set, assign error message text 
-      @error = hh[key]
+  @error = hh.select {|key,_| params[key] == ""}.values.join(", ")
+  if @error != ''
       return erb :visit
-    end
   end
 
   f = File.open './public/users.txt', 'a'
