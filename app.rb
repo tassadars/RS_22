@@ -25,6 +25,8 @@ get '/' do
 end
 
 get '/about' do
+
+  #@error = "test on error"
   erb :about
 end
 
