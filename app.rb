@@ -41,6 +41,19 @@ post '/visit' do
   session[:barber] = params['barber']
   session[:color] = params['color']
 
+  hh = {  :username => 'Enter name',
+          :phone => 'Enter phone',
+          :datetime => 'Enter datetime'}
+
+  #for each pair key-value
+  hh.each do |key, value|
+    if params[key] == ''
+      # variable not set, assign error message text 
+      @error = hh[key]
+      return erb :visit
+    end
+  end
+
   f = File.open './public/users.txt', 'a'
   f.write "username: #{session[:username]}, phone: #{session[:phone]}, datetime: #{session[:datetime]}, barber: #{session[:barber]}, color: #{session[:color]}\n"
   f.close
