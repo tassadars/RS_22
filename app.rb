@@ -3,6 +3,17 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'haml'
 require 'pony'
+require 'sqlite3'
+
+#SQL Example ---------- TO BE DELETED
+# db = SQLite3::Database.new 'test.db'
+# db.execute "SELECT * FROM Messages" do |message|
+#   puts message
+#   puts "======"
+# end
+# db.close
+#------------------------------------
+
 
 configure do
   enable :sessions
