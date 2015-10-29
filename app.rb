@@ -41,11 +41,11 @@ post '/visit' do
   session[:barber] = params['barber']
   session[:color] = params['color']
 
-  hh = {  :username => 'Enter name',
+  hh_v = {  :username => 'Enter name',
           :phone => 'Enter phone',
           :datetime => 'Enter datetime'}
 
-  @error = hh.select {|key,_| params[key] == ""}.values.join(", ")
+  @error = hh_v.select {|key,_| params[key] == ""}.values.join(", ")
   if @error != ''
       return erb :visit
   end
@@ -54,6 +54,11 @@ post '/visit' do
   f.write "username: #{session[:username]}, phone: #{session[:phone]}, datetime: #{session[:datetime]}, barber: #{session[:barber]}, color: #{session[:color]}\n"
   f.close
 
+  session[:username] = ''
+  session[:phone] = ''
+  session[:datetime] = ''
+  session[:barber] = ''
+  session[:color] = ''
   erb 'Дорогой <%=session[:username]%>, ваша заявка принята на рассмотрение. Парикмахер <%=session[:barber]%> вам перезвонит!'
 end
 
@@ -65,10 +70,21 @@ post '/contacts' do
   session[:email] = params['email']
   session[:message] = params['message']
 
+  hh_c = {:email => 'Enter email',
+          :message => 'Enter message'}
+
+  @error = hh_c.select {|key,_| params[key] == ""}.values.join(", ")
+  if @error != ''
+      return erb :contacts
+  end
+
+
   f = File.open './public/messages.txt', 'a'
   f.write "email: #{session[:email]}, message: #{session[:message]}\n"
   f.close
 
+  session[:email] = ''
+  session[:message] = ''  
   erb 'Дорогой <%=session[:username]%>, вашe сообщение принято. Мы вам ответим в близжайшее время!'
 end
 

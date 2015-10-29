@@ -6,11 +6,11 @@
 
 <form action= "/contacts" method="POST" role="form">
 	<div class="form-group">
-		<input name="email" type="text" class="form-control" placeholder="Ваш E-mail">
+		<input name="email" type="text" class="form-control" placeholder="Ваш E-mail" value="<%= session[:email] %>">
 	</div>
 
 	<div class="form-group">
-		<textarea name="message" class="form-control" rows="3" placeholder="Поле для ввода сообщения"></textarea>
+		<textarea name="message" class="form-control" rows="3" placeholder="Поле для ввода сообщения" value="<%= session[:message] %>"></textarea>
 	</div>
 
 	<div class="form-group">
