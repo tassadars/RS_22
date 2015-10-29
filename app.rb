@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
+require 'haml'
+require 'pony'
 
 configure do
   enable :sessions
@@ -82,6 +84,25 @@ post '/contacts' do
   f = File.open './public/messages.txt', 'a'
   f.write "email: #{session[:email]}, message: #{session[:message]}\n"
   f.close
+
+  Pony.mail(
+#    :name => session[:username],
+#    :mail => session[:email],
+#    :body => session[:message],
+    :to => 'tassadars@gmail.com',
+    :subject => session[:username].to_s + " has contacted you",
+    :body => session[:message],
+    :via => :smtp,
+    :via_options => { 
+      :address              => 'smtp.gmail.com', 
+      :port                 => '587', 
+      :enable_starttls_auto => true, 
+      :user_name            => 'tassadars', 
+      :password             => 'tassusaderu02757513', 
+      :authentication       => :plain, 
+      :domain               => 'localhost.localdomain'
+    }
+  )
 
   session[:email] = ''
   session[:message] = ''  
