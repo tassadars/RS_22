@@ -33,6 +33,34 @@ before '/secure/*' do
   end
 end
 
+get '/login/form' do
+  erb :login_form
+end
+
+post '/login/attempt' do
+  session[:identity] = params['username']
+  session[:password] = params['password']
+
+  erb :visit 
+#  where_user_came_from = session[:previous_url] || '/'
+#  redirect to where_user_came_from
+end
+
+get '/logout' do
+  session.delete(:identity)
+  erb "<div class='alert alert-message'>Logged out</div>"
+end
+
+get '/secure/place' do
+  erb 'This is a secret place that only <%=session[:identity]%> with password <%=session[:password]%> has access to!'
+end
+
+get '/secure/*' do
+  erb 'some error'
+end
+
+#-------------------------------------------------------------
+
 get '/' do
   erb 'Can you handle a <a href="/secure/place">secret</a>?'
 end
@@ -120,24 +148,3 @@ post '/contacts' do
   erb 'Дорогой <%=session[:username]%>, вашe сообщение принято. Мы вам ответим в близжайшее время!'
 end
 
-
-get '/login/form' do
-  erb :login_form
-end
-
-post '/login/attempt' do
-  session[:identity] = params['username']
-  session[:password] = params['password']
-
-  where_user_came_from = session[:previous_url] || '/'
-  redirect to where_user_came_from
-end
-
-get '/logout' do
-  session.delete(:identity)
-  erb "<div class='alert alert-message'>Logged out</div>"
-end
-
-get '/secure/place' do
-  erb 'This is a secret place that only <%=session[:identity]%> with password <%=session[:password]%> has access to!'
-end
