@@ -11,9 +11,7 @@ require 'sqlite3'
 #   puts message
 #   puts "======"
 # end
-
 # db.close
-
 #------------------------------------
 
 
