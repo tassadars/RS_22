@@ -13,11 +13,14 @@ require 'sqlite3'
 # end
 # db.close
 #------------------------------------
+ def get_db
+    SQLite3::Database.new 'BarberShop.db'
+ end
 
-
+# run each restart time (initialization)
 configure do
-  @db = SQLite3::Database.new 'BarberShop.db'
-  @db.execute 'CREATE TABLE IF NOT EXISTS 
+  db = get_db
+  db.execute 'CREATE TABLE IF NOT EXISTS 
       "Users" 
       (
           "Id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
@@ -28,15 +31,14 @@ configure do
            "Color" TEXT
       )'
 
-  @db.execute 'CREATE TABLE IF NOT EXISTS 
+  db.execute 'CREATE TABLE IF NOT EXISTS 
       "Contacts" 
       (
             "Id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, 
             "Email" TEXT, 
             "Message" TEXT
       )'
-
-
+  db.close
   enable :sessions
 end
 
@@ -112,9 +114,25 @@ post '/visit' do
       return erb :visit
   end
 
+  # to be deleted
   f = File.open './public/users.txt', 'a'
   f.write "username: #{session[:username]}, phone: #{session[:phone]}, datetime: #{session[:datetime]}, barber: #{session[:barber]}, color: #{session[:color]}\n"
   f.close
+  #--------------
+
+  db = get_db
+  db.execute 'INSERT INTO 
+      Users
+      (
+          Name,
+          Phone,
+          DateStamp,
+          Barber,
+          Color
+      )
+      values (?,?,?,?,?)', 
+      [session[:username], session[:phone], session[:datetime], session[:barber], session[:color]]
+  db.close
 
   session[:username] = ''
   session[:phone] = ''
@@ -168,4 +186,3 @@ post '/contacts' do
   session[:message] = ''  
   erb 'Дорогой <%=session[:username]%>, вашe сообщение принято. Мы вам ответим в близжайшее время!'
 end
-
