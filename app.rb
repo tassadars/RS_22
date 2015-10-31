@@ -14,7 +14,9 @@ require 'sqlite3'
 # db.close
 #------------------------------------
  def get_db
-    SQLite3::Database.new 'BarberShop.db'
+    db = SQLite3::Database.new 'BarberShop.db'
+    db.results_as_hash = true
+    return db
  end
 
 # run each restart time (initialization)
