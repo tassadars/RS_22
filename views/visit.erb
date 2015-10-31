@@ -15,8 +15,12 @@
   </div>
 
   <div class="form-group">
-    <label>Когда вас ждать?</label>
-    <input name="datetime" type="text" class="form-control" placeholder="Введите дату и время" value="<%= session[:datetime] %>">
+  	<div class="row">
+   		<div class="col-md-12">
+    		<label>Когда вас ждать?</label>
+    		<input name="datetime" id="datetimepicker" type="text" class="form-control" placeholder="Введите дату и время" value="<%= session[:datetime] %>">
+  		</div>
+    </div>
   </div>
 
  <div class="form-group">
@@ -61,6 +65,7 @@
 	// DO LIKE THAT!! will be performed when all page will be loaded  
 	$(function(){
 		$('#color').simplecolorpicker();
+		$('#datetimepicker').datetimepicker();
 	});
 
 
