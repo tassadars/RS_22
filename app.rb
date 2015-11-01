@@ -40,7 +40,7 @@ configure do
             "Email" TEXT, 
             "Message" TEXT
       )'
-  db.close
+  db.close if db
   enable :sessions
 end
 
@@ -134,7 +134,7 @@ post '/visit' do
       )
       values (?,?,?,?,?)', 
       [session[:username], session[:phone], session[:datetime], session[:barber], session[:color]]
-  db.close
+  db.close if db
 
   session[:username] = ''
   session[:phone] = ''
@@ -187,4 +187,13 @@ post '/contacts' do
   session[:email] = ''
   session[:message] = ''  
   erb 'Дорогой <%=session[:username]%>, вашe сообщение принято. Мы вам ответим в близжайшее время!'
+end
+
+get '/showusers' do
+
+  db = get_db
+  @hh_show = db.execute 'SELECT * FROM Users ORDER BY ID DESC'
+  db.close if db
+
+  erb :showusers
 end
