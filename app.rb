@@ -192,7 +192,7 @@ end
 get '/showusers' do
 
   db = get_db
-  @hh_show = db.execute 'SELECT * FROM Users ORDER BY ID DESC'
+  @arr_hh = db.execute 'SELECT * FROM Users ORDER BY ID DESC'
   db.close if db
 
   erb :showusers
