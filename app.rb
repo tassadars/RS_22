@@ -40,6 +40,24 @@ configure do
             "Email" TEXT, 
             "Message" TEXT
       )'
+
+  db.execute 'CREATE TABLE IF NOT EXISTS 
+      "Barbers" 
+      (
+        "Id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , 
+        "Name" TEXT NOT NULL , 
+        "Surname" TEXT
+        )' 
+
+  hh_b = db.execute 'SELECT * FROM Barbers'
+  if hh_b.empty?  
+    db.execute 'INSERT INTO "Barbers" VALUES (1,"Angela","Woodman");'
+    db.execute 'INSERT INTO "Barbers" VALUES (2,"Lisa","Ashley");'
+    db.execute 'INSERT INTO "Barbers" VALUES (3,"Jessie","Pinkman");'
+    db.execute 'INSERT INTO "Barbers" VALUES (4,"Gabriel","Orchid");'
+    db.execute 'INSERT INTO "Barbers" VALUES (5,"Samantha","Kerton");'
+  end
+
   db.close if db
   enable :sessions
 end
