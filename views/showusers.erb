@@ -1,15 +1,20 @@
 <h3>Users that were add in database:</h3>
 
-<table class="table">
-		<tr>
-			<td><%= 'Name' %></td>
-			<td><%= 'Phone' %></td>
-			<td><%= 'DateStamp' %></td>
-			<td><%= 'Barber' %></td>
-			<td><%= 'Color' %></td>
-		</tr>
+<table class="table table-striped">
+		<thead>
+			<tr>
+				<th> Id </th>
+				<th> Name </th>
+				<th> Phone </th>
+				<th> DateStamp </th>
+				<th> Barber </th>
+				<th> Color </th>
+			<tr>
+		</thead>
+		<body>
 	<% @arr_hh.each  do |row| %> 
 		<tr>
+			<td><%= row['Id'] %></td>
 			<td><%= row['Name'] %></td>
 			<td><%= row['Phone'] %></td>
 			<td><%= row['DateStamp'] %></td>
@@ -17,6 +22,7 @@
 			<td><%= row['Color'] %></td>
 		</tr>		
 	<% end %> 
+	</body>
 </table>
 
 </h4>
