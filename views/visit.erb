@@ -26,9 +26,12 @@
  <div class="form-group">
 	 <label>Выберите парикмахера:</label>
 	 <select name="barber" class="form-control">
-	  <option <%= session[:barber] == 'Walter White' ? 'selected' : '' %>>Walter White</option>
-	  <option <%= session[:barber] == 'Jessie Pinkman' ? 'selected' : '' %>>Jessie Pinkman</option>
-	  <option <%= session[:barber] == 'Gus Fring' ? 'selected' : '' %>>Gus Fring</option>
+
+	 <%	if @arr_barbers != nil %>
+		 <% @arr_barbers.each  do |row| %> 
+		 	<option <%= session[:barber] == "#{row['Name']} #{row['Surname']}" ? 'selected' : '' %>> <%= "#{row['Name']} #{row['Surname']}" %> </option>
+		 <% end %> 
+	 <% end %> 
 	 </select> 
  </div>
 

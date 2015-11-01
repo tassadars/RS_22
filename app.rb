@@ -49,14 +49,15 @@ configure do
         "Surname" TEXT
         )' 
 
-  hh_b = db.execute 'SELECT * FROM Barbers'
-  if hh_b.empty?  
+  @arr_barbers = db.execute 'SELECT * FROM Barbers'
+  if @arr_barbers.empty?  
     db.execute 'INSERT INTO "Barbers" VALUES (1,"Angela","Woodman");'
     db.execute 'INSERT INTO "Barbers" VALUES (2,"Lisa","Ashley");'
     db.execute 'INSERT INTO "Barbers" VALUES (3,"Jessie","Pinkman");'
     db.execute 'INSERT INTO "Barbers" VALUES (4,"Gabriel","Orchid");'
     db.execute 'INSERT INTO "Barbers" VALUES (5,"Samantha","Kerton");'
   end
+  @arr_barbers = db.execute 'SELECT * FROM Barbers'
 
   db.close if db
   enable :sessions
@@ -115,6 +116,10 @@ get '/about' do
 end
 
 get '/visit' do
+  db = get_db
+  @arr_barbers = db.execute 'SELECT * FROM Barbers'
+  db.close if db
+
   erb :visit
 end
 
@@ -125,9 +130,14 @@ post '/visit' do
   session[:barber] = params['barber']
   session[:color] = params['color']
 
-  hh_v = {  :username => 'Enter name',
+  hh_v = {:username => 'Enter name',
           :phone => 'Enter phone',
           :datetime => 'Enter datetime'}
+
+  #WHY it's not global????
+  db = get_db
+  @arr_barbers = db.execute 'SELECT * FROM Barbers'
+  db.close if db
 
   @error = hh_v.select {|key,_| params[key] == ""}.values.join(", ")
   if @error != ''
