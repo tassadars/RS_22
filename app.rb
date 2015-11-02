@@ -19,6 +19,20 @@ require 'sqlite3'
     return db
  end
 
+ def is_barber_esists? db, name, surname
+      db.execute('SELECT * FROM Barbers where name=? AND surname=?',[name, surname]).length > 0
+ end
+
+  def seed_db db, arr_barbers 
+      arr_barbers.each do |hh|
+        hh.each_value do 
+          if !is_barber_esists? db, hh[:name], hh[:surname]
+              db.execute 'INSERT INTO Barbers (Name, Surname) values (?,?)', [hh[:name], hh[:surname]]
+          end
+        end
+      end
+  end
+
 # run each restart time (initialization)
 configure do
   db = get_db
@@ -33,7 +47,7 @@ configure do
            "Color" TEXT
       )'
 
-  db.execute 'CREATE TABLE IF NOT EXISTS 
+  db.execute 'CREATE TABLE IF NOT EXISTS   
       "Contacts" 
       (
             "Id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, 
@@ -47,16 +61,14 @@ configure do
         "Id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , 
         "Name" TEXT NOT NULL , 
         "Surname" TEXT
-        )' 
+        )'  
 
-  @arr_barbers = db.execute 'SELECT * FROM Barbers'
-  if @arr_barbers.empty?  
-    db.execute 'INSERT INTO "Barbers" VALUES (1,"Angela","Woodman");'
-    db.execute 'INSERT INTO "Barbers" VALUES (2,"Lisa","Ashley");'
-    db.execute 'INSERT INTO "Barbers" VALUES (3,"Jessie","Pinkman");'
-    db.execute 'INSERT INTO "Barbers" VALUES (4,"Gabriel","Orchid");'
-    db.execute 'INSERT INTO "Barbers" VALUES (5,"Samantha","Kerton");'
-  end
+  seed_db db,  [{:name => 'Angela', :surname => 'Woodman'},
+                {:name => 'Lisa', :surname => 'Ashley'},
+                {:name => 'Jessie', :surname => 'Pinkman'},
+                {:name => 'Gabriel', :surname => 'Orchid'},                
+                {:name => 'Samantha', :surname => 'Kerton'}]
+
   @arr_barbers = db.execute 'SELECT * FROM Barbers'
 
   db.close if db
