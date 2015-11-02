@@ -127,11 +127,13 @@ get '/about' do
   erb :about
 end
 
-get '/visit' do
+before '/visit' do
   db = get_db
   @arr_barbers = db.execute 'SELECT * FROM Barbers'
-  db.close if db
+  db.close if db  
+end
 
+get '/visit' do
   erb :visit
 end
 
@@ -145,11 +147,6 @@ post '/visit' do
   hh_v = {:username => 'Enter name',
           :phone => 'Enter phone',
           :datetime => 'Enter datetime'}
-
-  #WHY it's not global????
-  db = get_db
-  @arr_barbers = db.execute 'SELECT * FROM Barbers'
-  db.close if db
 
   @error = hh_v.select {|key,_| params[key] == ""}.values.join(", ")
   if @error != ''
