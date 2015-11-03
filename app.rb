@@ -173,12 +173,13 @@ post '/visit' do
       [session[:username], session[:phone], session[:datetime], session[:barber], session[:color]]
   db.close if db
 
+  msg = "Дорогой #{session[:username]}, ваша заявка принята на рассмотрение. Парикмахер #{session[:barber]} вам перезвонит!"
   session[:username] = ''
   session[:phone] = ''
   session[:datetime] = ''
   session[:barber] = ''
   session[:color] = ''
-  erb 'Дорогой <%=session[:username]%>, ваша заявка принята на рассмотрение. Парикмахер <%=session[:barber]%> вам перезвонит!'
+  erb msg
 end
 
 get '/contacts' do
@@ -221,9 +222,10 @@ post '/contacts' do
     }
   )
 
+  msg = "Дорогой #{session[:username]}, вашe сообщение принято. Мы вам ответим в близжайшее время!"
   session[:email] = ''
   session[:message] = ''  
-  erb 'Дорогой <%=session[:username]%>, вашe сообщение принято. Мы вам ответим в близжайшее время!'
+  erb msg
 end
 
 get '/showusers' do
